@@ -10,6 +10,15 @@ app.get('/info', (request, response) => {
     response.send(`<p>Phonebook has info for ${NoOfPeople} people</p><p>${Date()}</p>`)
 })
 
+
+app.delete('/api/persons/:id', (request, response) => {
+    const id = Number(request.params.id)
+    persons = persons.filter(element => element.id !== id)
+
+    response.status(204).end()
+})
+
+
 app.get('/api/persons/:id', (request, response) => {
     const id = Number(request.params.id)
     const person = persons.find(element => element.id === id)
