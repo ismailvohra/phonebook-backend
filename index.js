@@ -5,6 +5,12 @@ app.get('/api/persons', (request, response) => {
     response.json(persons)
 })
 
+app.get('/info', (request, response) => {
+    const NoOfPeople = persons.length
+
+    response.send(`<p>Phonebook has info for ${NoOfPeople} people</p><p>${Date()}</p>`)
+})
+
 let persons = [
     { 
       "id": 1,
