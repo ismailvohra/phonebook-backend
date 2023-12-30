@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 
+app.use(express.json())
+
 app.get('/api/persons', (request, response) => {
     response.json(persons)
 })
@@ -19,6 +21,7 @@ app.delete('/api/persons/:id', (request, response) => {
 })
 
 
+
 app.get('/api/persons/:id', (request, response) => {
     const id = Number(request.params.id)
     const person = persons.find(element => element.id === id)
@@ -30,6 +33,19 @@ app.get('/api/persons/:id', (request, response) => {
         response.status(404).end()
     }
     
+})
+
+function getRandomInt() {
+    return Math.floor(Math.random() * 1000);
+  }
+
+app.post('/api/persons', (request, response) => {
+    const person = request.body
+    person.id = getRandomInt()
+    
+    persons = persons.concat(person)
+
+    response.json(person)
 })
 
 let persons = [
