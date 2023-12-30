@@ -7,8 +7,20 @@ app.get('/api/persons', (request, response) => {
 
 app.get('/info', (request, response) => {
     const NoOfPeople = persons.length
-
     response.send(`<p>Phonebook has info for ${NoOfPeople} people</p><p>${Date()}</p>`)
+})
+
+app.get('/api/persons/:id', (request, response) => {
+    const id = Number(request.params.id)
+    const person = persons.find(element => element.id === id)
+
+    if(person){
+        response.json(person)
+    }
+    else{
+        response.status(404).end()
+    }
+    
 })
 
 let persons = [
