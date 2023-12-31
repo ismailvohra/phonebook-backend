@@ -1,7 +1,17 @@
 const express = require('express')
+const morgan = require('morgan')
+
 const app = express()
 
+morgan.token('data', (req) => {
+    if(req.method==='POST'){
+        return JSON.stringify(req.body)
+    }
+    return ''
+})
+
 app.use(express.json())
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :data'))
 
 app.get('/api/persons', (request, response) => {
     response.json(persons)
@@ -39,8 +49,9 @@ function getRandomInt() {
     return Math.floor(Math.random() * 1000);
   }
 
+
 app.post('/api/persons', (request, response) => {
-    const person = request.body
+    const person = {...request.body}
     person.id = getRandomInt()
     
     if(!person.name || !person.number){
