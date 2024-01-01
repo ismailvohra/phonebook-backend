@@ -1,5 +1,7 @@
 const express = require('express')
 const morgan = require('morgan')
+const cors = require('cors')
+
 
 const app = express()
 
@@ -10,6 +12,7 @@ morgan.token('data', (req) => {
     return ''
 })
 
+app.use(cors())
 app.use(express.json())
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :data'))
 
@@ -55,13 +58,13 @@ app.post('/api/persons', (request, response) => {
     person.id = getRandomInt()
     
     if(!person.name || !person.number){
-        response.status(400).json({
+        return response.status(400).json({
             error: 'name or number is missing'
         })
     }
 
     if(persons.some(element => element.name === person.name)){
-        response.status(400).json({
+        return response.status(400).json({
             error: 'name must be unique'
         })
     }
