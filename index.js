@@ -74,9 +74,14 @@ app.post('/api/persons', (request, response) => {
         })
     }
 
-    persons = persons.concat(person)
+    const personNew = new Person({
+        name: person.name,
+        number: person.number,
+    })
 
-    response.json(person)
+    personNew.save().then(element => {
+        response.json(element)
+    })
 })
 
 let persons = [
